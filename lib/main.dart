@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Message Board App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
       routes: {
@@ -28,10 +29,11 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/boards': (context) => MessageBoardsPage(),
-        '/chat': (context) => ChatPage(boardName: 'Default Board'), // Dummy board name
+        '/chat': (context) => ChatPage(boardName: 'Default Board'), // Placeholder
         '/profile': (context) => ProfilePage(),
         '/settings': (context) => SettingsPage(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
