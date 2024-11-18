@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'profile_page.dart';
-import 'settings_page.dart';
 
 class MessageBoardsPage extends StatelessWidget {
+  final List<Map<String, String>> boards = [
+    {'name': 'General', 'icon': 'assets/general_icon.png'},
+    {'name': 'Tech Talk', 'icon': 'assets/tech_icon.png'},
+    {'name': 'Sports', 'icon': 'assets/sports_icon.png'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,9 +14,7 @@ class MessageBoardsPage extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(
-              child: Text('Menu', style: TextStyle(fontSize: 24)),
-            ),
+            DrawerHeader(child: Text('Menu')),
             ListTile(
               title: Text('Profile'),
               onTap: () {
@@ -28,7 +30,18 @@ class MessageBoardsPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(child: Text('Message Boards')),
+      body: ListView.builder(
+        itemCount: boards.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: Image.asset(boards[index]['icon']!),
+            title: Text(boards[index]['name']!),
+            onTap: () {
+              Navigator.pushNamed(context, '/chat', arguments: {'boardName': boards[index]['name']!});
+            },
+          );
+        },
+      ),
     );
   }
 }

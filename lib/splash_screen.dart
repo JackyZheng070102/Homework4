@@ -9,7 +9,10 @@ class SplashScreen extends StatelessWidget {
     });
     return Scaffold(
       body: Center(
-        child: Text('Welcome to ChatBoard!', style: TextStyle(fontSize: 24)),
+        child: Text(
+          'Welcome to ChatBoard!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

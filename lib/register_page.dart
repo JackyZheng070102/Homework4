@@ -11,22 +11,25 @@ class RegisterPage extends StatelessWidget {
   Future<void> registerUser(BuildContext context) async {
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
 
       await FirebaseFirestore.instance.collection('users').doc(credential.user?.uid).set({
-        'firstName': firstNameController.text,
-        'lastName': lastNameController.text,
-        'email': emailController.text,
-        'role': 'user',
+        'firstName': firstNameController.text.trim(),
+        'lastName': lastNameController.text.trim(),
+        'email': emailController.text.trim(),
         'createdAt': DateTime.now(),
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration Successful!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration Successful!')),
+      );
       Navigator.pushReplacementNamed(context, '/login');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
