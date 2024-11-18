@@ -5,6 +5,8 @@ import 'login_page.dart';
 import 'register_page.dart';
 import 'message_boards_page.dart';
 import 'chat_page.dart';
+import 'profile_page.dart';
+import 'settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +28,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/boards': (context) => MessageBoardsPage(),
-        '/chat': (context) => ChatPage(boardName: 'Default Board'), // Dummy for now
+        '/chat': (context) => ChatPage(boardName: 'Default Board'), // Dummy board name
+        '/profile': (context) => ProfilePage(),
+        '/settings': (context) => SettingsPage(),
       },
     );
   }
