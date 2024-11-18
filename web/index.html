@@ -1,22 +1,73 @@
-<!-- Add Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase App</title>
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
 
-<script>
-  // Your Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyCT9ZVBdLS6AeamKl1ylz_LBwrcs3YYqmE",
-    authDomain: "messageboardapp-1d5f6.firebaseapp.com",
-    projectId: "messageboardapp-1d5f6",
-    storageBucket: "messageboardapp-1d5f6.appspot.com",
-    messagingSenderId: "644941343907",
-    appId: "1:644941343907:web:4eba5f8fccbeb17413a316",
-    measurementId: "G-Y1Z692HPR6"
-  };
+  <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCT9ZVBdLS6AeamKl1ylz_LBwrcs3YYqmE",
+      authDomain: "messageboardapp-1d5f6.firebaseapp.com",
+      projectId: "messageboardapp-1d5f6",
+      storageBucket: "messageboardapp-1d5f6.firebasestorage.app",
+      messagingSenderId: "644941343907",
+      appId: "1:644941343907:web:4eba5f8fccbeb17413a316",
+      measurementId: "G-Y1Z692HPR6"
+    };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
+    const db = firebase.firestore();
+
+    // Function to fetch and display messages
+    function fetchMessages() {
+      const contentDiv = document.getElementById('content');
+      const loadingDiv = document.getElementById('loading');
+      contentDiv.innerHTML = ''; // Clear old messages
+      loadingDiv.style.display = 'block'; // Show loading
+
+      db.collection("messages")
+        .get()
+        .then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            contentDiv.innerHTML = '<p>No messages found.</p>';
+          } else {
+            let output = '';
+            querySnapshot.forEach((doc) => {
+              output += `<p>${doc.data().message}</p>`;
+            });
+            contentDiv.innerHTML = output;
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching messages: ", error);
+          contentDiv.innerHTML = '<p>Error loading messages.</p>';
+        })
+        .finally(() => {
+          loadingDiv.style.display = 'none'; // Hide loading
+        });
+    }
+  </script>
+
+  <style>
+    #loading {
+      display: none;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Firebase App</h1>
+  <button onclick="fetchMessages()">Load Messages</button>
+  <div id="loading">Loading messages...</div>
+  <div id="content"></div>
+</body>
+</html>
